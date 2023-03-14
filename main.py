@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 # stores scores by income
 data = managedata.filterData(managedata.getScoresByIncome())
 
+# fills [x, y] lists with the information to be graphed
 readingByIncome = scoresplit.incomeVsMathReading(data, "reading")
 mathByIncome = scoresplit.incomeVsMathReading(data, "math")
 scoreByIncome = scoresplit.incomeVsScore(data)
