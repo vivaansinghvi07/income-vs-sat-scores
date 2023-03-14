@@ -37,9 +37,3 @@ def getCensusData(zipCodes):
 
     # returns a dictionary with zip code and corresponding household incomes
     return output
-
-
-
-        
-
-        
