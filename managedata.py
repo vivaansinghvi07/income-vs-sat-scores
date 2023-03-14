@@ -119,3 +119,16 @@ def getScoresByIncome():
             continue
 
     return scoresByIncome
+
+def filterData(scoresByIncome):
+
+    # empty output dict
+    output = {}
+
+    # filters out ['s', 's'] lists
+    for income, score in scoresByIncome.items():
+        if score[0] == 's':
+            continue
+        output[income] = score
+
+    return output
