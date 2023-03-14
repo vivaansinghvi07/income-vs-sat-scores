@@ -12,7 +12,7 @@ def getCensusData(zipCodes):
     index = -1
 
     # gets the index of the reader where the median income is
-    with open("census-data.csv", "r") as f:
+    with open("datasets/census-data.csv", "r") as f:
 
         # creates a reader
         reader = csv.DictReader(f)
@@ -28,7 +28,7 @@ def getCensusData(zipCodes):
                 index = i
     
     # returns an array of incomes corresponding to the zip codes entered
-    with open("census-data.csv", "r") as f:
+    with open("datasets/census-data.csv", "r") as f:
         
         # creates a reader in list form so it can be indexed over
         reader = list(csv.DictReader(f))
@@ -60,7 +60,10 @@ def getScoresAndCodes():
     return scoresByDBN
 
 def addressToZip(address):
-    return int(address.split(" ")[-1])
+    try:
+        return int(address.split("\n")[-2].split(" ")[-1])
+    except:
+        pass
 
 def getZipCodes():
 
@@ -74,6 +77,45 @@ def getZipCodes():
 
         # assigns a zip code by the DBN number
         for line in reader:
-            ZipByDBN[line["ATS SYSTEM CODE"]] = addressToZip(line["Location 1"])
+            ZipByDBN[line["ATS SYSTEM CODE"].strip()] = addressToZip(line["Location 1"])
 
     return ZipByDBN
+
+def getScoresByIncome():
+    # gets dicts
+    scoresByDBN = getScoresAndCodes()
+    DBNtoZip = getZipCodes()
+
+    # creates dict of scores by the zip code
+    scoresByZip = {}
+
+    # fills the scores by zip code dictionary
+    for dbn, scores in scoresByDBN.items():
+        try:
+            scoresByZip[DBNtoZip[dbn]] = scores
+        except:
+            continue
+
+    # gets zip codes that need to be converted to incomes
+    zips = []
+
+    # fills zips list
+    for zip in scoresByZip.keys():
+        if not zip:
+            continue
+        zips.append(zip)
+
+    # gets incomes by zip code
+    incomeByZip = getCensusData(zips)
+
+    # creates dict of scores by median income
+    scoresByIncome = {}
+
+    # fills scores by income
+    for zip, scores in scoresByZip.items():
+        try:
+            scoresByIncome[incomeByZip[zip]] = scores
+        except:
+            continue
+
+    return scoresByIncome
