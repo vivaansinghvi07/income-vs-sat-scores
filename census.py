@@ -19,8 +19,12 @@ def getCensusData(zipCodes):
 
         # the name of the field of the first element (the label) 
         label = reader.fieldnames[0]
-        for i in range(len(reader)):
-            if reader[i][label] == "Median income (dollars)":
+
+        # converts reader into a list for indexing
+        readerList = list(reader)
+
+        for i in range(len(readerList)):
+            if readerList[i][label] == "Median income (dollars)":
                 index = i
     
     # returns an array of incomes corresponding to the zip codes entered
@@ -37,3 +41,5 @@ def getCensusData(zipCodes):
 
     # returns a dictionary with zip code and corresponding household incomes
     return output
+
+print(getCensusData([10001, 10002]))
