@@ -41,5 +41,3 @@ def getCensusData(zipCodes):
 
     # returns a dictionary with zip code and corresponding household incomes
     return output
-
-print(getCensusData([10001, 10002]))
