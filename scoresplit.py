@@ -21,6 +21,9 @@ def incomeVsScore(scoresByIncome):
     # popualates arrays
     for income, scores in scoresByIncome.items():
         x.append(int(income.replace(",", "")))
-        y.append(sum(scores))
+        
+        # finds total score
+        sum = int(scores[0]) + int(scores[1])
+        y.append(sum)
 
     return [x, y]
